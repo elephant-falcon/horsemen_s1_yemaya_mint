@@ -1,11 +1,10 @@
 {
   "name": "season1_oya_minting-dapp_common",
-  "homepage": "https://elephant-falcon.github.io/oya-test",
+  "homepage": "http://elephant-falcon.github.io/oya-test",
   "version": "1.0.0",
   "description": "HashLips minting dapp is a quick and easy way to connect your smart contract and start minting NFTs.",
   "private": true,
   "dependencies": {
-    "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -36,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
