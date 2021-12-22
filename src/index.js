@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import "./styles/reset.css";
 import { Provider as StyletronProvider, DebugEngine } from "styletron-react";
 import { Client as Styletron } from "styletron-engine-atomic";
+import { StyleReset } from 'atomize';
 
 
 const debug =
@@ -18,9 +19,12 @@ const engine = new Styletron();
 // 2. Provide the engine to the app
 // debug engine needs inlined source maps
 ReactDOM.render(
-  <Provider value={engine} debug={debug} debugAfterHydration store={store}>
+  <StyletronProvider value={engine} debug={debug} debugAfterHydration >
+    <Provider store={store}>
+    <StyleReset />
     <App />
-  </Provider>,
+    </Provider>
+  </StyletronProvider>,
   document.getElementById("root")
 );
 

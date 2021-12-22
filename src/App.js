@@ -4,6 +4,7 @@ import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
+import { Div, Button, Icon, Row, Col, Container, Tag } from "atomize";
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -68,7 +69,7 @@ export const ResponsiveWrapper = styled.div`
 export const StyledLogo = styled.img`
   width: 200px;
   @media (min-width: 767px) {
-    width: 300px;
+    width: 250px;
   }
   transition: width 0.5s;
   transition: height 0.5s;
@@ -195,31 +196,51 @@ function App() {
 
   return (
     <s.Screen>
-      <s.Container
-        flex={1}
-        ai={"center"}
-        style={{ padding: 24, backgroundColor: "var(--primary)" }}
-        image={CONFIG.SHOW_BACKGROUND ? "/config/images/bg.png" : null}
-      >
-        <StyledLogo alt={"logo"} src={"/config/images/logo.png"} />
-        <s.SpacerSmall />
-        <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
-          <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg alt={"example"} src={"/config/images/example.gif"} />
-          </s.Container>
-          <s.SpacerLarge />
-          <s.Container
-            flex={2}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              backgroundColor: "var(--accent)",
-              padding: 24,
-              borderRadius: 24,
-              border: "4px dashed var(--secondary)",
-              boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
-            }}
-          >
+
+      <Container>
+        <Row>
+          <Col size={{ xs: 12, lg: 3 }}>
+            <Div p="1rem" bg="warning500">
+              3 of 12
+              <StyledLogo alt={"logo"} src={"/config/images/logo.png"} />
+              <s.TextDescription
+                style={{
+                  textAlign: "left",
+                  color: "var(--primary-text)",
+                }}
+              >
+                Please make sure you are connected to the right network (
+                {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
+                Once you make the purchase, you cannot undo this action.
+              </s.TextDescription>
+              <s.SpacerSmall />
+              <s.TextDescription
+                style={{
+                  textAlign: "left",
+                  color: "var(--primary-text)",
+                }}
+              >
+                We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
+                successfully mint your NFT. We recommend that you don't lower the
+                gas limit.
+              </s.TextDescription>
+            </Div>
+          </Col>
+          <Col size={{ xs: "auto" }}>
+            <Div p="1rem" bg="warning500">
+              Variable width content
+              <s.Container
+                flex={2}
+                jc={"center"}
+                ai={"center"}
+                style={{
+                  backgroundColor: "var(--accent)",
+                  padding: 24,
+                  borderRadius: 24,
+                  border: "4px dashed var(--secondary)",
+                  boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
+                }}
+              >
             <s.TextTitle
               style={{
                 textAlign: "center",
@@ -229,6 +250,8 @@ function App() {
               }}
             >
               {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+              
+
             </s.TextTitle>
             <s.TextDescription
               style={{
@@ -274,7 +297,7 @@ function App() {
                 </s.TextDescription>
                 <s.SpacerSmall />
                 {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
+                  blockchain.smartContract === null ? (
                   <s.Container ai={"center"} jc={"center"}>
                     <s.TextDescription
                       style={{
@@ -285,7 +308,7 @@ function App() {
                       Connect to the {CONFIG.NETWORK.NAME} network
                     </s.TextDescription>
                     <s.SpacerSmall />
-                    <StyledButton
+                    {/* <StyledButton
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(connect());
@@ -293,20 +316,57 @@ function App() {
                       }}
                     >
                       CONNECT
-                    </StyledButton>
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <s.SpacerSmall />
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
+                    </StyledButton> */}
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(connect());
+                            getData();
                           }}
+                          prefix={
+                            <Icon
+                              name="Card"
+                              size="16px"
+                              color="white"
+                              m={{ r: "0.5rem" }}
+                            />
+                          }
+                          bg="warning700"
+                          hoverBg="warning800"
+                          rounded="circle"
+                          p={{ r: "1.5rem", l: "1rem" }}
+                          shadow="3"
+                          hoverShadow="4"
                         >
-                          {blockchain.errorMsg}
-                        </s.TextDescription>
-                      </>
-                    ) : null}
+                          Connect
+                        </Button>
+
+
+                        {blockchain.errorMsg !== "" ? (
+                          <>
+                            <s.SpacerSmall />
+                            <Div
+                              bg="gray800"
+                              d="flex"
+                              align="center"
+                              p="1rem"
+                            ><s.TextDescription
+                              style={{
+                                textAlign: "center",
+                                color: "var(--accent-text)",
+                              }}
+                            >
+                                {blockchain.errorMsg}
+                              </s.TextDescription>
+                            </Div>
+
+                          </>
+                        ) : null}
+
+                        
+
+
+
                   </s.Container>
                 ) : (
                   <>
@@ -369,40 +429,21 @@ function App() {
             )}
             <s.SpacerMedium />
           </s.Container>
-          <s.SpacerLarge />
-          <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg
-              alt={"example"}
-              src={"/config/images/example.gif"}
-              style={{ transform: "scaleX(-1)" }}
-            />
-          </s.Container>
-        </ResponsiveWrapper>
-        <s.SpacerMedium />
-        <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-            }}
-          >
-            Please make sure you are connected to the right network (
-            {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
-            Once you make the purchase, you cannot undo this action.
-          </s.TextDescription>
-          <s.SpacerSmall />
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-            }}
-          >
-            We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
-            successfully mint your NFT. We recommend that you don't lower the
-            gas limit.
-          </s.TextDescription>
-        </s.Container>
-      </s.Container>
+
+            </Div>
+          </Col>
+          <Col size={{ xs: 12, lg: 4 }}>
+            <Div p="1rem" bg="warning500">
+              4 of 12
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg alt={"example"} src={"/config/images/example.gif"} />
+              </s.Container>
+
+            </Div>
+          </Col>
+        </Row>
+      </Container>
+
     </s.Screen>
   );
 }
