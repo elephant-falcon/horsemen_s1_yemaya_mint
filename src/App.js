@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
-import { Div, Button, Icon, Row, Col, Container, Tag, ThemeProvider, Anchor, Text, Image } from "atomize";
+import { Div, Button, Icon, Row, Col, Container, Tag, ThemeProvider, Anchor, Text, Image, Input} from "atomize";
 
 const HRSM_Center = { display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' };
+const HRSM_IMG_Center = { display: 'flex', justifyContent: 'center', alignItems: 'center'};
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -156,19 +157,20 @@ function App() {
                     </Text>
 
                     <Row>
-                      <Col size={{ xs: 2, lg: 2 }}></Col>
-                      <Col size={{ xs: 4, lg: 4 }}>
+                      <Col size={{ xs: 2, lg: 4 }}></Col>
+                      <Col size={{ xs: 4, lg: 2 }} style={HRSM_IMG_Center}>
 
-                        <Image alt={"logo"} src={"/config/images/polygon-matic-logo.png"} p="1rem"/>
+                        <Image alt={"logo"} src={"/config/images/polygon-matic-logo.png"}/>
 
                       </Col>
-                      <Col size={{ xs: 4, lg: 4 }}>
+                      <Col size={{ xs: 4, lg: 2 }} style={HRSM_IMG_Center}>
 
                         <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
 
                       </Col>
-                      <Col size={{ xs: 2, lg: 2 }}></Col>
+                      <Col size={{ xs: 2, lg: 4 }}></Col>
                     </Row>
+                    <br />
 
 
                     {blockchain.account === "" ||
