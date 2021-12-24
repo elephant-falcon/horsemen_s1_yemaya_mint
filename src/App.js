@@ -276,44 +276,34 @@ function App() {
                   </>
                 )}
               </Div>
-
-              <Row m="1rem">
-                <Col size={{ xs: 2, lg: 3 }}></Col>
-                <Col size={{ xs: 4, lg: 3 }} style={HRSM_IMG_Center}>
-
-                  <Image alt={"logo"} src={"/config/images/polygon-logo-inverted.png"} />
-
-                </Col>
-                <Col size={{ xs: 4, lg: 3 }} style={HRSM_IMG_Center}>
-
-                  <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
-
-                </Col>
-                <Col size={{ xs: 2, lg: 3 }}></Col>
-              </Row>
+              <br />
 
               <Row>
-                <Col size={{ xs: 12, lg: 3 }}>
-                  <Text textColor="white">
-                    Minted so far:
-                  </Text>
-                  <Div shadow="1" w="100%" bg="gray900" rounded="md" p="0.25rem">
+                {/* <Col size={{ xs: 12, lg: 2 }}>
+                  <Div shadow="1" w="100%" bg="white" rounded="md" p="0.25rem">
                     <Tag>
                       {data.totalSupply} / {CONFIG.MAX_SUPPLY}
                     </Tag>
                   </Div>
-                </Col>
-                <Col size={{ xs: 12, lg: 9 }}>
-                  <Text textColor="white">
-                    Contract Address:
-                  </Text>
-                  <Div shadow="1" w="100%" bg="gray900" rounded="md" align="center" p="0.25rem">
+                </Col> */}
+                <Col size={{ xs: 12, lg: 6 }}>
+                  <Div shadow="1" w="100%" bg="white" rounded="md" d="flex" align="center" p="0.25rem">
                     <Tag>
                       <Anchor target={"_blank"} href={CONFIG.SCAN_LINK}>
-                        {truncate(CONFIG.CONTRACT_ADDRESS, 32)}
+                        {truncate(CONFIG.CONTRACT_ADDRESS, 25)}
                       </Anchor>
                     </Tag>
                   </Div>
+                </Col>
+                <Col size={{ xs: 6, lg: 3 }} style={HRSM_IMG_Center}>
+
+                  <Image alt={"logo"} src={"/config/images/polygon-logo-inverted.png"} />
+
+                </Col>
+                <Col size={{ xs: 6, lg: 3 }} style={HRSM_IMG_Center}>
+
+                  <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
+
                 </Col>
               </Row>
 
