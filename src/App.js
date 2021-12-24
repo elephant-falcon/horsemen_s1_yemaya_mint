@@ -286,21 +286,22 @@ function App() {
                     </Tag>
                   </Div>
                 </Col> */}
-                <Col size={{ xs: 12, lg: 6 }}>
-                  <Div shadow="1" w="100%" bg="white" rounded="md" d="flex" align="center" p="0.25rem">
+                <Col size={{ xs: 5, lg: 3 }}>
+                  <Div shadow="1" w="100%" bg="white" rounded="md" d="flex" align="center" p="0.5rem">
                     <Tag>
                       <Anchor target={"_blank"} href={CONFIG.SCAN_LINK}>
-                        {truncate(CONFIG.CONTRACT_ADDRESS, 25)}
+                        {truncate(CONFIG.CONTRACT_ADDRESS, 10)}
                       </Anchor>
                     </Tag>
                   </Div>
                 </Col>
-                <Col size={{ xs: 6, lg: 3 }} style={HRSM_IMG_Center}>
+                <Col size={{ xs: 1, lg: 3 }}></Col>
+                <Col size={{ xs: 3, lg: 3 }} style={HRSM_IMG_Center}>
 
                   <Image alt={"logo"} src={"/config/images/polygon-logo-inverted.png"} />
 
                 </Col>
-                <Col size={{ xs: 6, lg: 3 }} style={HRSM_IMG_Center}>
+                <Col size={{ xs: 3, lg: 3 }} style={HRSM_IMG_Center}>
 
                   <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
 
@@ -310,7 +311,7 @@ function App() {
             </Div>
 
             <Div p="2rem">
-              <Text textColor="white">
+              <Text textColor="white" textSize="tiny">
                 <sup>*</sup> Make sure you are connected to the right network (
                 <Tag bg="dark">{CONFIG.NETWORK.NAME} </Tag>) and the correct address. We have set the gas limit
                 to <Tag bg="dark">{CONFIG.GAS_LIMIT}</Tag> for the contract to
@@ -325,12 +326,23 @@ function App() {
             size={{ xs: 12, lg: 6 }}
             minH="40rem"
             bg="gray700"
-            bgImg="/config/images/proofs/oya-variants-3_Rare.jpg"
+            bgImg="/config/images/covers/bkg-halftone-dark2.jpg"
             bgSize="cover"
           >
-            <Div p="4rem" style={HRSM_Center}>
-              {/* <Image alt={"example"} src={"/config/images/covers/Divine-Intervention_crop.jpg"} /> */}
+            <Div style={HRSM_Center}>
+
+              <Row>
+                <Col size={{ xs: 1, lg: 3 }}></Col>
+                <Col size={{ xs: 10, lg: 6 }}>
+                  <Image alt={"example"} src={"/config/images/proofs/oya-variants-3_Rare.jpg"} />
+                </Col>
+                <Col size={{ xs: 1, lg: 3 }}></Col>
+              </Row>
+
+
+
             </Div>
+
           </Col>
 
         </Row>
