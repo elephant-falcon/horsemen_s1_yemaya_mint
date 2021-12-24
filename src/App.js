@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
-import { Div, Button, Icon, Row, Col, Container, Tag, ThemeProvider, Anchor, Text, Image, Input} from "atomize";
+import { Div, Button, Icon, Row, Col, Container, Tag, ThemeProvider, Anchor, Text, Image, Input } from "atomize";
 
 const HRSM_Center = { display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' };
-const HRSM_IMG_Center = { display: 'flex', justifyContent: 'center', alignItems: 'center'};
+const HRSM_IMG_Center = { display: 'flex', justifyContent: 'center', alignItems: 'center' };
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -132,6 +132,9 @@ function App() {
 
               <Div shadow="1" w="100%" bg="white" rounded="md" p="1rem">
 
+                <Text textAlign="center" textWeight="800">
+                  You are minting
+                </Text>
                 <Text textAlign="center" textSize="heading" textWeight="800">
                   Oya the Catalyst
                 </Text>
@@ -156,23 +159,6 @@ function App() {
                       be minted directly to OpenSea.
                     </Text>
 
-                    <Row>
-                      <Col size={{ xs: 2, lg: 4 }}></Col>
-                      <Col size={{ xs: 4, lg: 2 }} style={HRSM_IMG_Center}>
-
-                        <Image alt={"logo"} src={"/config/images/polygon-matic-logo.png"}/>
-
-                      </Col>
-                      <Col size={{ xs: 4, lg: 2 }} style={HRSM_IMG_Center}>
-
-                        <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
-
-                      </Col>
-                      <Col size={{ xs: 2, lg: 4 }}></Col>
-                    </Row>
-                    <br />
-
-
                     {blockchain.account === "" ||
                       blockchain.smartContract === null ? (
                       <Container>
@@ -182,7 +168,7 @@ function App() {
                           </Tag>
                         </Text>
 
-                        <Div style={HRSM_Center}>
+                        <Div style={HRSM_IMG_Center}>
                           <Button
                             onClick={(e) => {
                               e.preventDefault();
@@ -223,7 +209,6 @@ function App() {
                           </Tag>
                         </Text>
                         <br />
-
                         <Row>
                           <Col size={{ xs: 6, lg: 4 }} d="flex">
 
@@ -291,28 +276,43 @@ function App() {
                   </>
                 )}
               </Div>
-              <br />
+
+              <Row m="1rem">
+                <Col size={{ xs: 2, lg: 3 }}></Col>
+                <Col size={{ xs: 4, lg: 3 }} style={HRSM_IMG_Center}>
+
+                  <Image alt={"logo"} src={"/config/images/polygon-logo-inverted.png"} />
+
+                </Col>
+                <Col size={{ xs: 4, lg: 3 }} style={HRSM_IMG_Center}>
+
+                  <Image alt={"logo"} src={"/config/images/opensea-logo.png"} />
+
+                </Col>
+                <Col size={{ xs: 2, lg: 3 }}></Col>
+              </Row>
+
               <Row>
                 <Col size={{ xs: 12, lg: 3 }}>
                   <Text textColor="white">
                     Minted so far:
                   </Text>
-                  <Div shadow="1" w="100%" bg="white" rounded="md" p="1rem">
-                    <Text>
+                  <Div shadow="1" w="100%" bg="gray900" rounded="md" p="0.25rem">
+                    <Tag>
                       {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-                    </Text>
+                    </Tag>
                   </Div>
                 </Col>
                 <Col size={{ xs: 12, lg: 9 }}>
                   <Text textColor="white">
                     Contract Address:
                   </Text>
-                  <Div shadow="1" w="100%" bg="white" rounded="md" align="center" p="1rem">
-                    <Text>
+                  <Div shadow="1" w="100%" bg="gray900" rounded="md" align="center" p="0.25rem">
+                    <Tag>
                       <Anchor target={"_blank"} href={CONFIG.SCAN_LINK}>
-                        {truncate(CONFIG.CONTRACT_ADDRESS, 25)}
+                        {truncate(CONFIG.CONTRACT_ADDRESS, 32)}
                       </Anchor>
-                    </Text>
+                    </Tag>
                   </Div>
                 </Col>
               </Row>
@@ -335,7 +335,7 @@ function App() {
             size={{ xs: 12, lg: 6 }}
             minH="40rem"
             bg="gray700"
-            bgImg="/config/images/covers/Divine-Intervention.jpg"
+            bgImg="/config/images/proofs/oya-variants-3_Rare.jpg"
             bgSize="cover"
           >
             <Div p="4rem" style={HRSM_Center}>
