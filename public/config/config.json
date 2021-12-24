@@ -3,10 +3,10 @@
   "SCAN_LINK": "https://mumbai.polygonscan.com/token/0xa459Ea2F2feEffe084A2C09778ff4abb36021d25",
   "NETWORK": {
     "NAME": "Polygon",
-    "SYMBOL": "Matic",
+    "SYMBOL": "MATIC",
     "ID": 80001
   },
-  "NFT_NAME": "Horsemen - Oya Test",
+  "NFT_NAME": "OYA THE CATALYST",
   "SYMBOL": "OYA",
   "MAX_SUPPLY": 50,
   "WEI_COST": 10000000000000000,
