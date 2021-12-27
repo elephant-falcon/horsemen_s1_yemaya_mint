@@ -45,7 +45,7 @@ function App() {
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Almost there! Minting "${CONFIG.NFT_NAME}" now...`);
+    setFeedback(`Almost there! Minting "${CONFIG.NFT_NAME}" now. Check your wallet for any notifications.`);
     setClaimingNft(true);
     blockchain.smartContract.methods
       .mint(mintAmount)
@@ -57,13 +57,13 @@ function App() {
       })
       .once("error", (err) => {
         console.log(err);
-        setFeedback("Sorry, something went wrong. Are you connected to the Polygon Mainnet? Please check your wallet settings and try again.");
+        setFeedback("Sorry, something went wrong (" + err.message + ") Please check your wallet settings and try again.");
         setClaimingNft(false);
       })
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `You have successfully minted ${CONFIG.NFT_NAME}! Go visit Opensea.io to view it.`
+          `You have successfully minted ${CONFIG.NFT_NAME}! Go visit Opensea.io to view it.` + receipt
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -123,11 +123,11 @@ function App() {
             <Div p="2rem">
 
               <Row>
-                <Col size={{ xs: 2, lg: 4 }}></Col>
-                <Col size={{ xs: 8, lg: 4 }}>
+                <Col size={{ xs: 4, lg: 4 }}></Col>
+                <Col size={{ xs: 4, lg: 4 }}>
                   <Image alt={"logo"} src={"/config/images/Horsemen-Logo-256.png"} />
                 </Col>
-                <Col size={{ xs: 2, lg: 4 }}></Col>
+                <Col size={{ xs: 4, lg: 4 }}></Col>
               </Row>
 
               <Div shadow="1" w="100%" bg="white" rounded="md" p="1rem">
@@ -138,7 +138,7 @@ function App() {
                 <Text textAlign="center" textSize="heading" textWeight="800">
                   Oya the Catalyst
                 </Text>
-
+                <br />
                 {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
                   <>
                     <Text textAlign="center">
@@ -153,12 +153,6 @@ function App() {
                   </>
                 ) : (
                   <>
-                    <Text textAlign="center" p="1rem">
-                      1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
-                      {CONFIG.NETWORK.SYMBOL}, excluding gas fees*, and will
-                      be minted directly to OpenSea.
-                    </Text>
-
                     {blockchain.account === "" ||
                       blockchain.smartContract === null ? (
                       <Container>
@@ -176,15 +170,10 @@ function App() {
                               getData();
                             }}
                             prefix={
-                              <Icon name="Card" size="16px" color="white" m={{ r: "0.5rem" }} />
+                              <Icon name="Add" size="18px" color="white" m={{ r: "0.5rem" }} />
                             }
-                            bg="warning800"
-                            hoverBg="success700"
-                            rounded="md"
                             p={{ r: "1.5rem", l: "1rem" }}
-                            m='1rem'
-                            shadow="3"
-                            hoverShadow="4"
+                            hoverBg="success700" rounded="md" m='1rem' shadow="3" hoverShadow="4"
                           >
                             Connect Wallet
                           </Button>
@@ -203,20 +192,43 @@ function App() {
 
                       <Div shadow="3" w="100%" bg="white" rounded="md" align="center" p="1rem" border="1px solid" borderColor="gray300">
 
-                        <Text textAlign="center">
-                          <Tag>
-                            {feedback}
-                          </Tag>
-                        </Text>
+
+                        {claimingNft ?
+                          <Row>
+                            <Col size={{ xs: 12 }}>
+                              <Tag p="1rem" h="100%" textAlign="Left" bg="success300"
+                                prefix={
+                                  <Icon name="Loading" size="18px" bg="success800" m={{ r: "0.5rem" }} />
+                                }
+                              >
+                                {feedback}
+                              </Tag>
+                            </Col>
+                          </Row>
+                          :
+                          <Row>
+                            <Col size={{ xs: 12, lg: 6 }}>
+                              <Tag p="1rem" h="100%" w="100%" textAlign="Left"
+                              >
+                                1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
+                                {CONFIG.NETWORK.SYMBOL}, excluding gas fees*, and will
+                                be minted directly to OpenSea.
+                              </Tag>
+                            </Col>
+                            <Col size={{ xs: 12, lg: 6 }}>
+                              <Tag p="1rem" h="100%" w="100%" textAlign="Left" bg="info300">
+                                {feedback}
+                              </Tag>
+                            </Col>
+                          </Row>
+                        }
+
+
                         <br />
                         <Row>
                           <Col size={{ xs: 6, lg: 4 }} d="flex">
 
-                            <Button
-                              bg="success700"
-                              hoverBg="warning800"
-                              rounded="md"
-                              w="50%"
+                            <Button bg="success700" hoverBg="warning800" rounded="md" w="50%"
                               m={{ r: "0.5rem" }}
                               disabled={claimingNft ? 1 : 0}
                               onClick={(e) => {
@@ -226,11 +238,7 @@ function App() {
                             >
                               -
                             </Button>
-                            <Button
-                              bg="success700"
-                              hoverBg="warning800"
-                              rounded="md"
-                              w="50%"
+                            <Button bg="success700" hoverBg="warning800" rounded="md" w="50%"
                               disabled={claimingNft ? 1 : 0}
                               onClick={(e) => {
                                 e.preventDefault();
@@ -253,11 +261,8 @@ function App() {
                           </Col>
                           <Col size={{ xs: 4, lg: 4 }}>
 
-                            <Button
-                              bg="success700"
-                              hoverBg="warning800"
-                              rounded="md"
-                              w="100%"
+                            <Button bg="success700" hoverBg="warning800" rounded="md" w="100%"
+
                               disabled={claimingNft ? 1 : 0}
                               onClick={(e) => {
                                 e.preventDefault();
@@ -265,7 +270,7 @@ function App() {
                                 getData();
                               }}
                             >
-                              {claimingNft ? "BUSY" : "BUY"}
+                              {claimingNft ? "BUSY..." : "BUY"}
                             </Button>
 
                           </Col>
@@ -279,18 +284,16 @@ function App() {
               <br />
 
               <Row>
-                {/* <Col size={{ xs: 12, lg: 2 }}>
-                  <Div shadow="1" w="100%" bg="white" rounded="md" p="0.25rem">
-                    <Tag>
-                      {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-                    </Tag>
-                  </Div>
-                </Col> */}
+
                 <Col size={{ xs: 5, lg: 3 }}>
                   <Div shadow="1" w="100%" bg="white" rounded="md" d="flex" align="center" p="0.5rem">
-                    <Tag>
+                    <Tag
+                      prefix={<Icon name="External" size="12px" color="black" m={{ r: "0.25rem" }} />}
+                      bg="gray700"
+                      w="100%"
+                    >
                       <Anchor target={"_blank"} href={CONFIG.SCAN_LINK}>
-                        {truncate(CONFIG.CONTRACT_ADDRESS, 10)}
+                        Contract
                       </Anchor>
                     </Tag>
                   </Div>
@@ -307,17 +310,19 @@ function App() {
 
                 </Col>
               </Row>
+              <br />
 
-            </Div>
+              <Div>
+                <Text textColor="gray800" textSize="body">
+                  <sup>*</sup>Make sure you are connected to the right network (
+                  <Tag bg="dark">{CONFIG.NETWORK.NAME} </Tag>) and the correct address. We have set the gas limit
+                  to <Tag bg="dark">{CONFIG.GAS_LIMIT}</Tag> for the contract to
+                  successfully mint your NFT. We recommend that you don't lower the gas limit. Please note:
+                  Once you make the purchase, you cannot undo this action.
+                </Text>
+              </Div>
 
-            <Div p="2rem">
-              <Text textColor="white" textSize="tiny">
-                <sup>*</sup> Make sure you are connected to the right network (
-                <Tag bg="dark">{CONFIG.NETWORK.NAME} </Tag>) and the correct address. We have set the gas limit
-                to <Tag bg="dark">{CONFIG.GAS_LIMIT}</Tag> for the contract to
-                successfully mint your NFT. We recommend that you don't lower the gas limit. Please note:
-                Once you make the purchase, you cannot undo this action.
-              </Text>
+
             </Div>
 
           </Col>
