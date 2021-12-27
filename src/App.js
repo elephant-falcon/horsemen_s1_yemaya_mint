@@ -17,7 +17,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click BUY to mint your NFTs. There is a limit of ` + mintLimit + ` per wallet address.`);
+  const [feedback, setFeedback] = useState(`Click BUY to mint your NFT. There is a limit of ` + mintLimit + ` per wallet address.`);
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -27,7 +27,7 @@ function App() {
       SYMBOL: "",
       ID: 0,
     },
-    NFT_NAME: "",
+    NFT_SYMBOL: "",
     SYMBOL: "",
     MAX_SUPPLY: 1,
     WEI_COST: 0,
@@ -45,7 +45,7 @@ function App() {
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Almost there! Minting "${CONFIG.NFT_NAME}" now. Check your wallet for any notifications.`);
+    setFeedback(`Almost there! Minting ${CONFIG.SYMBOL} now. Check your wallet for notifications.`);
     setClaimingNft(true);
     blockchain.smartContract.methods
       .mint(mintAmount)
@@ -57,13 +57,13 @@ function App() {
       })
       .once("error", (err) => {
         console.log(err);
-        setFeedback("Sorry, something went wrong (" + err.message + ") Please check your wallet settings and try again.");
+        setFeedback("Sorry, something went wrong (" + err.message + ") Please check your wallet and try again.");
         setClaimingNft(false);
       })
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `You have successfully minted ${CONFIG.NFT_NAME}! Go visit Opensea.io to view it.` + receipt
+          `You have successfully minted your ${CONFIG.SYMBOL}! Go visit Opensea.io to view it in your collection.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -125,7 +125,9 @@ function App() {
               <Row>
                 <Col size={{ xs: 4, lg: 4 }}></Col>
                 <Col size={{ xs: 4, lg: 4 }}>
-                  <Image alt={"logo"} src={"/config/images/Horsemen-Logo-256.png"} />
+                  <Anchor target={"_blank"} href={"https://nft.griotenterprises.com"}>
+                    <Image alt={"logo"} src={"/config/images/Horsemen-Logo-256.png"} />
+                  </Anchor>
                 </Col>
                 <Col size={{ xs: 4, lg: 4 }}></Col>
               </Row>
@@ -136,7 +138,7 @@ function App() {
                   You are minting
                 </Text>
                 <Text textAlign="center" textSize="heading" textWeight="800">
-                  Oya the Catalyst
+                  {CONFIG.NFT_NAME}
                 </Text>
                 <br />
                 {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
@@ -145,7 +147,7 @@ function App() {
                       The sale has ended.
                     </Text>
                     <Text textAlign="center">
-                      You can still find {CONFIG.NFT_NAME} on
+                      You can still find {CONFIG.NFT_SYMBOL} on
                       <Anchor target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
                         {CONFIG.MARKETPLACE}
                       </Anchor>
@@ -172,8 +174,8 @@ function App() {
                             prefix={
                               <Icon name="Add" size="18px" color="white" m={{ r: "0.5rem" }} />
                             }
+                            hoverBg="success700" rounded="md" m={{ t: "0.5rem", b: "0.5rem" }} shadow="3" hoverShadow="4"
                             p={{ r: "1.5rem", l: "1rem" }}
-                            hoverBg="success700" rounded="md" m='1rem' shadow="3" hoverShadow="4"
                           >
                             Connect Wallet
                           </Button>
@@ -196,11 +198,7 @@ function App() {
                         {claimingNft ?
                           <Row>
                             <Col size={{ xs: 12 }}>
-                              <Tag p="1rem" h="100%" textAlign="Left" bg="success300"
-                                prefix={
-                                  <Icon name="Loading" size="18px" bg="success800" m={{ r: "0.5rem" }} />
-                                }
-                              >
+                              <Tag p="1rem" h="100%" w="100%" textAlign="Left" bg="success300">
                                 {feedback}
                               </Tag>
                             </Col>
@@ -208,7 +206,7 @@ function App() {
                           :
                           <Row>
                             <Col size={{ xs: 12, lg: 6 }}>
-                              <Tag p="1rem" h="100%" w="100%" textAlign="Left"
+                              <Tag p="1rem" h="100%" w="100%" textAlign="Left" 
                               >
                                 1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
                                 {CONFIG.NETWORK.SYMBOL}, excluding gas fees*, and will
@@ -270,7 +268,10 @@ function App() {
                                 getData();
                               }}
                             >
-                              {claimingNft ? "BUSY..." : "BUY"}
+                              {claimingNft ? 
+                                <Icon name="Loading" size="18px" bg="success800" /> 
+                                : "BUY"
+                              }
                             </Button>
 
                           </Col>
@@ -289,7 +290,7 @@ function App() {
                   <Div shadow="1" w="100%" bg="white" rounded="md" d="flex" align="center" p="0.5rem">
                     <Tag
                       prefix={<Icon name="External" size="12px" color="black" m={{ r: "0.25rem" }} />}
-                      bg="gray700"
+                      bg="info300"
                       w="100%"
                     >
                       <Anchor target={"_blank"} href={CONFIG.SCAN_LINK}>
@@ -317,11 +318,11 @@ function App() {
                   <sup>*</sup>Make sure you are connected to the right network (
                   <Tag bg="dark">{CONFIG.NETWORK.NAME} </Tag>) and the correct address. We have set the gas limit
                   to <Tag bg="dark">{CONFIG.GAS_LIMIT}</Tag> for the contract to
-                  successfully mint your NFT. We recommend that you don't lower the gas limit. Please note:
-                  Once you make the purchase, you cannot undo this action.
+                  successfully mint your {CONFIG.NFT_SYMBOL}. We recommend that you don't lower the gas limit. Please note:
+                  Once you make the purchase, you cannot undo this action. 
+                  All images and information &copy;2021-2022 Griot Enterprises and Elephant &amp; Falcon. All rights reserved.
                 </Text>
               </Div>
-
 
             </Div>
 
@@ -343,8 +344,6 @@ function App() {
                 </Col>
                 <Col size={{ xs: 1, lg: 3 }}></Col>
               </Row>
-
-
 
             </Div>
 
