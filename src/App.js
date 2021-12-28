@@ -19,6 +19,7 @@ function App() {
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click BUY to mint your NFT. There is a limit of ` + mintLimit + ` per wallet address.`);
   const [mintAmount, setMintAmount] = useState(1);
+  const [messageStatus, setStatus] = useState(`info300`);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -57,11 +58,13 @@ function App() {
       })
       .once("error", (err) => {
         console.log(err);
-        setFeedback("Sorry, something went wrong (" + err.message + ") Please check your wallet and try again.");
+        setStatus("warning300");
+        setFeedback("Sorry, something went wrong [" + err.message + "] Please check your wallet and try again.");
         setClaimingNft(false);
       })
       .then((receipt) => {
         console.log(receipt);
+        setStatus("success300");
         setFeedback(
           `You have successfully minted your ${CONFIG.SYMBOL}! Go visit Opensea.io to view it in your collection.`
         );
@@ -183,7 +186,7 @@ function App() {
 
                         {blockchain.errorMsg !== "" ? (
                           <Text textAlign="center">
-                            <Tag bg="warning700">
+                            <Tag bg="warning300">
                               {blockchain.errorMsg}
                             </Tag>
                           </Text>
@@ -214,7 +217,7 @@ function App() {
                               </Tag>
                             </Col>
                             <Col size={{ xs: 12, lg: 6 }}>
-                              <Tag p="1rem" h="100%" w="100%" textAlign="Left" bg="info300">
+                              <Tag p="1rem" h="100%" w="100%" textAlign="Left" bg={messageStatus}>
                                 {feedback}
                               </Tag>
                             </Col>
